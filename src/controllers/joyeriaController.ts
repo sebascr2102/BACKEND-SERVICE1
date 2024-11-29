@@ -33,12 +33,12 @@ export const getProductById = async(req: Request, res: Response) => {
 // POST - Crear un nuevo Producto
 export const createProduct = async(req: Request, res: Response) => {
   try {
-    const { name, description, price } = req.body;
+    const { name, description, price, imgUrl } = req.body;
     const product = new joyeria();
-    product.moda = name;
+    product.name = name;
     product.description = description;
-    product.precio = price;
-
+    product.price= price;
+    product.imgUrl= imgUrl;
     await productRepository.save(product);
     res.status(201).json(product);
   } catch(error) {
@@ -49,14 +49,18 @@ export const createProduct = async(req: Request, res: Response) => {
 // PUT - Actualizar un joyeria existente
 export const updateProduct = async(req: Request, res: Response) => {
   try {
-    const { name, description, price } = req.body;
+    const { name, description, price, imgUrl } = req.body;
+    const joyeria = await productRepository.findOneBy({
+      id: parseInt(req.params.id),
+    })
 
     if(joyeria) {
       joyeria.toString = name ?? joyeria;
       joyeria.toString = description ?? joyeria.price;
       joyeria.toString = price ?? joyeria.price;
+      joyeria.toString = imgUrl ?? joyeria.price;
 
-      await joyeria.price.save(joyeria);
+      await productRepository.save(joyeria);
       res.json(joyeria);
     } else {
       res.status(404).json({ message: "joyeria no encontrado" });
@@ -74,7 +78,7 @@ export const deleteProduct = async(req: Request, res: Response) => {
     });
 
     if (product) {
-      await productRepository.remove(joyeria.price);
+      await productRepository.remove(product);
       res.json({ message: "Producto eliminado." });
     } else {
       res.status(404).json({ message: "joyeria no encontrado." });
@@ -115,9 +119,9 @@ export const updatejoyeria = async(req: Request, res: Response) => {
 
     // Validamos que product tenga información
     if (joyeria) {
-      joyeria.moda= name ?? joyeria.moda;
+      joyeria.name= name ?? joyeria.name;
       joyeria.description = description ?? joyeria.description;
-      joyeria.precio = price ?? joyeria.precio;
+      joyeria.price= price ?? joyeria.price;
       joyeria.imgUrl = imgUrl ?? joyeria.imgUrl; // <----- Aquí va la nueva línea
       await productRepository.findOneBy(joyeria); // Guardamos los cambios del producto
       res.json(joyeria);
