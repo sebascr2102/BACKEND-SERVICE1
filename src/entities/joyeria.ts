@@ -14,6 +14,11 @@ export class joyeria{
   @Column("decimal")
   price!: number;
 
+
+  @Column("decimal")
+  moda!: number;
+
+
   @Column("text")
   imgUrl!: string;
 }

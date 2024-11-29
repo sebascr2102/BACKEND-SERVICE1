@@ -97,7 +97,9 @@ export const createjoyeria= async(req: Request, res: Response) => {
     joyeria.name = moda;
     joyeria.description = description;
     joyeria.price = price;
-    joyeria.imgUrl = imgUrl; // <----- Aquí va la nueva línea
+    joyeria.moda = moda
+    joyeria.imgUrl = imgUrl; 
+    // <----- Aquí va la nueva línea
     await productRepository.save(joyeria);
     res.status(201).json(joyeria);
   } catch(error) {
